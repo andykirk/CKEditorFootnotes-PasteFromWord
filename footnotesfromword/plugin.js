@@ -76,12 +76,14 @@ CKEDITOR.plugins.add( 'footnotesfromword', {
             if ((/<section.*class="footnotes"/).test(data)) {
                 data = data.replace(/(<section.*class="footnotes"[^]*)<\/ol>[^]*?<\/section>/, '$1' + footnotes + '</ol></section>');
             } else {
-                var header_title = editor.config.footnotesTitle ? editor.config.footnotesTitle : 'Footnotes';
+                var header_title = editor.config.footnotesTitle ? editor.config.footnotesTitle : null;
                 var header_els = ['<h2>', '</h2>'];//editor.config.editor.config.footnotesHeaderEls
                 if (editor.config.footnotesHeaderEls) {
                     header_els = editor.config.footnotesHeaderEls;
                 }
-                data += '<section class="footnotes"><header>' + header_els[0] + header_title + header_els[1] + '<ol>' + footnotes + '</ol></section>';
+                data += '<section class="footnotes">';
+                data += header_title ? header_els[0] + header_title + header_els[1] : '';
+                data += '<ol>' + footnotes + '</ol></section';
             }
             editor.setData(data);
             editor.fire('unlockSnapshot');
